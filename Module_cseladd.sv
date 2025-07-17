@@ -29,5 +29,4 @@ always @ (*) begin
       1  : sum = {sum_high_1, sum_low};
     endcase
 end
-assign sum = {sum_high, sum_low};
 endmodule
