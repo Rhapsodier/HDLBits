@@ -63,26 +63,31 @@ parameter LEFT = 0, RIGHT = 1, FALL = 2, DIG = 3, DEAD = 4;
     end
 
     DEAD :
+    begin
     next_state = DEAD;
-
+    mem_state = DEAD;
+    end
     endcase
     end
 
 
 
     always @(posedge clk, posedge areset) begin
-    if(areset) begin
+    if(areset)
     state <= LEFT;
-    dead_count <= 0;
-    end
-        else if(state == FALL && ~ground) begin
-        dead_count <= dead_count + 1;
-        end
-    else begin
+    else
         state <= next_state;
-            dead_count <= 0; 
     end
+
+    always @(posedge clk, posedge areset) begin
+        if(areset)
+        dead_count <= 0;
+        else if (next_state == FALL)
+        dead_count <= dead_count + 1;
+        else
+        dead_count <= 0;
     end
+
 
 always @(*) begin
  walk_left = (state == LEFT);
